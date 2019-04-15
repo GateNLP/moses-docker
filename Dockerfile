@@ -1,5 +1,5 @@
 # Version 0.0.1
-FROM ubuntu:cosmic as gatenlp/moses-build
+FROM ubuntu:cosmic as moses-build
 MAINTAINER Adam Funk "a.funk@sheffield.ac.uk"
 
 # base tools
@@ -41,7 +41,7 @@ WORKDIR /home/moses
 COPY  download.sh server.sh train* server-wrapper.py  ./
 
 
-FROM ubuntu:cosmic as gatenlp/moses-build
+FROM ubuntu:cosmic as moses-build
 RUN apt update && \
     apt install -y \
     unzip build-essential wget g++ git subversion automake \
