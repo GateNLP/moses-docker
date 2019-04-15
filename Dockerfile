@@ -41,7 +41,7 @@ WORKDIR /home/moses
 COPY  download.sh server.sh train* server-wrapper.py  ./
 
 
-FROM ubuntu:cosmic as moses-build
+FROM ubuntu:cosmic as moses
 RUN apt update && \
     apt install -y \
     unzip build-essential wget g++ git subversion automake \
