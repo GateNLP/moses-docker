@@ -52,5 +52,5 @@ RUN mkdir -p /home/moses && locale-gen en_GB.UTF-8
 ENV LANG='en_GB.UTF-8'  LANGUAGE='en_GB:en'  LC_ALL='en_GB.UTF-8'  PYTHONIOENCODING=utf-8
 
 WORKDIR /home/moses
-COPY --from=moses-build  /home/moses/mosesdecoder
+COPY --from=moses-build  /home/moses/mosesdecoder  ./
 COPY  server.sh train* server-wrapper.py  ./
