@@ -23,7 +23,7 @@ done
 
 mkdir -p "${CORPORA_DIR}/training"
 
-cd "{CORPORA_DIR}"
+cd "${CORPORA_DIR}"
 wget http://www.statmt.org/wmt13/training-parallel-commoncrawl.tgz
 wget http://www.statmt.org/wmt13/dev.tgz
 
