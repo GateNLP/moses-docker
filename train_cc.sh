@@ -3,18 +3,41 @@
 set -e
 
 # TODO
-# check options
-# set $SOURCE language
-# set $TARGET language
-# set working directories based on an option
 # test existence of input files & fail with good message if not
 
-TRAINING_DIR="/data/corpora/training"
-TUNING_DIR="/data/corpora/tuning"
-MOSES_DIR="/home/moses/mosesdecoder"
 
 FINAL_DIR="/data/model"
-WORKING_DIR="/data/model/working"
+CORPORA_DIR="/data/corpora"
+TESTING=0  # controls removal of intermediate directories
+CORPORA_INTERNAL=0 # controls removal of corpora (subject to TESTING)
+
+while getopts "sth?xT" opt
+do
+    case "$opt" in
+    h|\?)
+        echo "TODO HELP"
+        ;;
+    s)
+        SOURCE=$opt
+        ;;
+    t)
+        TARGET=$opt
+        ;;
+    T)
+        TESTING=1
+        ;;
+    x)
+        FINAL_DIR="/home/moses/model"
+        CORPORA_DIR="/home/moses/corpora"
+        CORPORA_INTERNAL=1
+        ;;
+    esac
+done
+
+TRAINING_DIR="${CORPORA_DIR}/training"
+TUNING_DIR="${CORPORA_DIR}/tuning"
+MOSES_DIR="/home/moses/mosesdecoder"
+WORKING_DIR="${FINAL_DIR}/working"
 
 mkdir -p ${WORKING_DIR}
 
@@ -69,5 +92,16 @@ tail mert.out
 
 echo "Tuning complete!"
 
-# TODO once it works
-# rm -fr ${WORKING_DIR}
+if [[ ${TESTING} -eq 1 ]]
+then
+    echo "Not deleting intermediate files"
+else
+    echo "Deleting intermediate files"
+    rm -fr ${WORKING_DIR}
+    if [[ ${CORPORA_INTERNAL} -eq 1 ]]
+    then
+        echo "Deleting local corpora"
+        rm -fr ${CORPORA_DIR}
+    fi
+
+fi
