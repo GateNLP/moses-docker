@@ -7,12 +7,12 @@ set -o pipefail
 #  "This page is your 'shopping list' for parallel texts."
 
 CORPORA_DIR="/data/corpora"
-while getopts "s:t:h?x" opt
+while getopts "h?x" opt
 do
     case "$opt" in
     h|\?)
         echo "OPTIONS"
-        echo "-X     put corpora in /home/moses/corpora rather than /data/corpora"
+        echo "-x     put corpora in /home/moses/corpora rather than /data/corpora"
         exit 0
         ;;
     x)
