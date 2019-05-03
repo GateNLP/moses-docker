@@ -3,16 +3,12 @@
 set -o errexit
 set -o pipefail
 
-# TODO
-# test existence of input files & fail with good message if not
-
-
 FINAL_DIR="/data/model"
 CORPORA_DIR="/data/corpora"
 TESTING=0  # controls removal of intermediate directories
 CORPORA_INTERNAL=0 # controls removal of corpora (subject to TESTING)
 
-while getopts "sth?xT" opt
+while getopts "s:t:h?xT" opt
 do
     case "$opt" in
     h|\?)
@@ -24,10 +20,10 @@ do
         exit 0
         ;;
     s)
-        SOURCE=$opt
+        SOURCE=${OPTARG}
         ;;
     t)
-        TARGET=$opt
+        TARGET=${OPTARG}
         ;;
     T)
         TESTING=1
@@ -45,6 +41,10 @@ then
     echo "-s and -t options are required!"
     exit 99
 fi
+
+echo "source language: ${SOURCE}"
+echo "target language: ${TARGET}"
+
 
 MOSES_DIR="/home/moses/mosesdecoder"
 TRAINING_DIR="${CORPORA_DIR}/training"
