@@ -8,7 +8,7 @@ RUN apt update && \
     unzip build-essential wget g++ git subversion automake \
     libtool zlib1g-dev libboost-all-dev libbz2-dev liblzma-dev \
     python-dev libsoap-lite-perl libxmlrpc-core-c3-dev python3-bottle \
-    libxmlrpc-c++8-dev locales google-perftools gosu
+    libxmlrpc-c++8-dev locales google-perftools gosu locales
 
 RUN mkdir -p /home/moses && locale-gen en_GB.UTF-8
 ENV LANG='en_GB.UTF-8'  LANGUAGE='en_GB:en'  LC_ALL='en_GB.UTF-8'  PYTHONIOENCODING=utf-8
@@ -42,7 +42,7 @@ COPY  download.sh server.sh train* server-wrapper.py  ./
 
 
 FROM ubuntu:cosmic as mosescorpora
-RUN apt update && apt install -y wget
+RUN apt update && apt install -y wget locales
 RUN mkdir -p /home/moses && locale-gen en_GB.UTF-8
 WORKDIR /home/moses
 COPY  download.sh  ./
@@ -55,7 +55,7 @@ RUN apt update && \
     unzip build-essential wget g++ git subversion automake \
     libtool zlib1g-dev libboost-all-dev libbz2-dev liblzma-dev \
     python-dev libsoap-lite-perl libxmlrpc-core-c3-dev python3-bottle \
-    libxmlrpc-c++8-dev locales google-perftools gosu
+    libxmlrpc-c++8-dev locales google-perftools gosu locales
 RUN mkdir -p /home/moses && locale-gen en_GB.UTF-8
 ENV LANG='en_GB.UTF-8'  LANGUAGE='en_GB:en'  LC_ALL='en_GB.UTF-8'  PYTHONIOENCODING=utf-8
 
