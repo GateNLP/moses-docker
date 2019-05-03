@@ -1,6 +1,7 @@
 #!/bin/bash
 
-set -e
+set -o errexit
+set -o pipefail
 
 # TODO
 # test existence of input files & fail with good message if not
@@ -15,7 +16,12 @@ while getopts "sth?xT" opt
 do
     case "$opt" in
     h|\?)
-        echo "TODO HELP"
+        echo "OPTIONS"
+        echo "-s SL  with two-letter code for source language (required)"
+        echo "-t tL  with two-letter code for target language (required)"
+        echo "-T     testing: do not delete intermediate files"
+        echo "-X     find corpora and build models in /home/moses rather than /data subdirectories"
+        exit 0
         ;;
     s)
         SOURCE=$opt
@@ -34,14 +40,25 @@ do
     esac
 done
 
+if [[ -z ${SOURCE} ]] || [[ -z ${TARGET} ]]
+then
+    echo "-s and -t options are required!"
+    exit 99
+fi
+
+MOSES_DIR="/home/moses/mosesdecoder"
 TRAINING_DIR="${CORPORA_DIR}/training"
 TUNING_DIR="${CORPORA_DIR}/tuning"
-MOSES_DIR="/home/moses/mosesdecoder"
 WORKING_DIR="${FINAL_DIR}/working"
 
 mkdir -p ${WORKING_DIR}
-
 cd ${WORKING_DIR}
+
+# TODO
+# LIST OF REQUIRED FILES
+# LOOP THROUGH AND FAIL IF MISSING
+
+
 
 ${MOSES_DIR}/scripts/tokenizer/tokenizer.perl -l ${TARGET}  <${TRAINING_DIR}/commoncrawl.${SOURCE}-${TARGET}.${TARGET}  >commoncrawl.${SOURCE}-${TARGET}.tok.${TARGET}
 
