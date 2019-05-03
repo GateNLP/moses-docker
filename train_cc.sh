@@ -54,15 +54,28 @@ WORKING_DIR="${FINAL_DIR}/working"
 mkdir -p ${WORKING_DIR}
 cd ${WORKING_DIR}
 
-# TODO
-# LIST OF REQUIRED FILES
-# LOOP THROUGH AND FAIL IF MISSING
+# Loop through the required input files and fail if missing
+
+REQUIRED_FILES=( "${TRAINING_DIR}/commoncrawl.${SOURCE}-${TARGET}.${TARGET}"  \
+                 "${TRAINING_DIR}/commoncrawl.${SOURCE}-${TARGET}.${SOURCE}"  \
+                 "${TUNING_DIR}/newstest2012.${TARGET}" \
+                 "${TUNING_DIR}/newstest2012.${SOURCE}" )
+
+for FILE in "${REQUIRED_FILES[@]}"
+do
+    if [[ ! -f ${FILE} ]]
+    then
+        echo "Required input file ${FILE} is missing!"
+        exit 100
+    fi
+done
 
 
+${MOSES_DIR}/scripts/tokenizer/tokenizer.perl -l ${TARGET}  <${TRAINING_DIR}/commoncrawl.${SOURCE}-${TARGET}.${TARGET} \
+                                               >commoncrawl.${SOURCE}-${TARGET}.tok.${TARGET}
 
-${MOSES_DIR}/scripts/tokenizer/tokenizer.perl -l ${TARGET}  <${TRAINING_DIR}/commoncrawl.${SOURCE}-${TARGET}.${TARGET}  >commoncrawl.${SOURCE}-${TARGET}.tok.${TARGET}
-
-${MOSES_DIR}/scripts/tokenizer/tokenizer.perl -l ${SOURCE}  <${TRAINING_DIR}/commoncrawl.${SOURCE}-${TARGET}.${SOURCE}  >commoncrawl.${SOURCE}-${TARGET}.tok.${SOURCE}
+${MOSES_DIR}/scripts/tokenizer/tokenizer.perl -l ${SOURCE}  <${TRAINING_DIR}/commoncrawl.${SOURCE}-${TARGET}.${SOURCE} \
+                                               >commoncrawl.${SOURCE}-${TARGET}.tok.${SOURCE}
 
 ${MOSES_DIR}/scripts/recaser/train-truecaser.perl --model  truecase-model.${TARGET} --corpus commoncrawl.${SOURCE}-${TARGET}.tok.${TARGET}
 
