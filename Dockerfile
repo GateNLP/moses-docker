@@ -54,7 +54,7 @@ COPY  download.sh server.sh train* server-wrapper.py  ./
 RUN  ./download.sh -x
 
 
-FROM ubuntu:cosmic as moses
+FROM ubuntu:cosmic as mosestrainer
 RUN apt update && \
     apt install -y \
     unzip build-essential wget g++ git subversion automake \
@@ -65,5 +65,6 @@ RUN mkdir -p /home/moses && locale-gen en_GB.UTF-8
 ENV LANG='en_GB.UTF-8'  LANGUAGE='en_GB:en'  LC_ALL='en_GB.UTF-8'  PYTHONIOENCODING=utf-8
 
 WORKDIR /home/moses
+COPY --from=mosescorpora /home/moses/corpora ./
 COPY --from=mosesbuilder  /home/moses/mosesdecoder  ./
 COPY  server.sh train* server-wrapper.py  ./
