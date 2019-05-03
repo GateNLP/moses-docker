@@ -17,7 +17,6 @@ do
         ;;
     x)
         CORPORA_DIR="/home/moses/corpora"
-        CORPORA_INTERNAL=1
         ;;
     esac
 done
