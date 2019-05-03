@@ -23,12 +23,13 @@ done
 
 mkdir -p "${CORPORA_DIR}/training"
 
-cd /data/corpora
+cd "{CORPORA_DIR}"
 wget http://www.statmt.org/wmt13/training-parallel-commoncrawl.tgz
 wget http://www.statmt.org/wmt13/dev.tgz
 
 cd training
 tar zxf ../training-parallel-commoncrawl.tgz
+# unpacks directly
 cd ..
 tar zxf dev.tgz
 # unpacks into dev/*
