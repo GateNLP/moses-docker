@@ -42,8 +42,7 @@ COPY  download.sh server.sh train* server-wrapper.py  ./
 
 
 FROM ubuntu:cosmic as mosescorpora
-RUN apt update && \
-    apt install -y wget
+RUN apt update && apt install -y wget
 RUN mkdir -p /home/moses && locale-gen en_GB.UTF-8
 WORKDIR /home/moses
 COPY  download.sh  ./
