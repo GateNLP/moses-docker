@@ -64,6 +64,7 @@ COPY --from=mosescorpora /home/moses/corpora ./
 COPY --from=mosesbuilder  /home/moses/mosesdecoder  ./
 COPY  server.sh train* server-wrapper.py  ./
 
+ENTRYPOINT ["/home/moses/entrypoint.sh"]
 
 # TODO
 # trained images produced by running trainer on mosestrainer with suitable
