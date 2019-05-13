@@ -16,7 +16,7 @@ do
         echo "-s SL  with two-letter code for source language (required)"
         echo "-t tL  with two-letter code for target language (required)"
         echo "-T     testing: do not delete intermediate files"
-        echo "-X     find corpora and build models in /home/moses rather than /data subdirectories"
+        echo "-x     find corpora and build models in /home/moses rather than /data subdirectories"
         exit 0
         ;;
     s)
@@ -28,7 +28,7 @@ do
     T)
         TESTING=1
         ;;
-    X)
+    x)
         FINAL_DIR="/home/moses/model"
         CORPORA_DIR="/home/moses/corpora"
         CORPORA_INTERNAL=1

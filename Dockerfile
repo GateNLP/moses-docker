@@ -63,7 +63,7 @@ WORKDIR /home/moses
 COPY --from=mosescorpora /home/moses/corpora  /home/moses/corpora/
 COPY --from=mosesbuilder  /home/moses/mosesdecoder   /home/moses/mosesdecoder/
 COPY  server.sh train* server-wrapper.py entrypoint.sh  /home/moses/
-RUN  ./train_cc.sh -s de -t en -X
+RUN  ./train_cc.sh -s de -t en -x
 
 
 FROM ubuntu:cosmic as moses_de_en
