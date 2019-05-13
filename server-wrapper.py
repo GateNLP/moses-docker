@@ -9,6 +9,10 @@ ALIGN_RE = re.compile(r'\|\d+-\d+\|')
 BAD_DELIMITERS = re.compile(r'[|_]+')
 INNER_URL = "http://localhost:8080/RPC2"
 
+# https://stackoverflow.com/questions/13729638/how-can-i-filter-emoji-characters-from-my-input-so-i-can-save-in-mysql-5-5/13752628
+ASTRAL_RE = re.compile(u'[\U00010000-\U0010ffff]')
+
+
 proxy = xmlrpc.client.ServerProxy(INNER_URL)
 
 
@@ -33,9 +37,12 @@ def translate():
     encoding = 'UTF-8'
     text = request.body.read().decode(encoding, 'replace')
 
+    # suppress characters outside the BMP
+    text1 = ASTRAL_RE.sub(' ', text)
+
     # https://www.mail-archive.com/moses-support@mit.edu/msg14325.html
     # Moses doesn't like square brackets
-    text1 = text.replace('[', '(').replace(']', ')')
+    text1 = text1.replace('[', '(').replace(']', ')')
 
     # «Номер 44» needs to be spaced out
     text1 = text1.replace('«', '« ').replace('»', ' »')
