@@ -60,9 +60,9 @@ RUN mkdir -p /home/moses && locale-gen en_GB.UTF-8
 ENV LANG='en_GB.UTF-8'  LANGUAGE='en_GB:en'  LC_ALL='en_GB.UTF-8'  PYTHONIOENCODING=utf-8
 
 WORKDIR /home/moses
-COPY --from=mosescorpora /home/moses/corpora/  /home/moses/
-COPY --from=mosesbuilder  /home/moses/mosesdecoder/   /home/moses/
-COPY  server.sh train* server-wrapper.py entrypoint.sh  ./
+COPY --from=mosescorpora /home/moses/corpora  /home/moses/
+COPY --from=mosesbuilder  /home/moses/mosesdecoder   /home/moses/
+COPY  server.sh train* server-wrapper.py entrypoint.sh  /home/moses
 
 ENTRYPOINT ["/home/moses/entrypoint.sh"]
 
