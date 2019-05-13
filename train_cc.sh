@@ -28,7 +28,7 @@ do
     T)
         TESTING=1
         ;;
-    x)
+    X)
         FINAL_DIR="/home/moses/model"
         CORPORA_DIR="/home/moses/corpora"
         CORPORA_INTERNAL=1
