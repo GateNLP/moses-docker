@@ -30,6 +30,8 @@ To run the service and publish it on port 9000 (you can change that value):
 
 # Notes
 
+- internal ports: 8080 for moses itself, 8081 for the bottle wrapper
+
 - It takes quite a bit of memory to build cmph, giza, and moses: better to build the image on the server than on a laptop.
 
 - No longer compiling boost (the Ubuntu 18.10 package is recent enough).
