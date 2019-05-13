@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 import re
-import xmlrpc
-from bottle import route, run, post, request, static_file, response, template
+import xmlrpc.client
 
+from bottle import run, post, request
 
 ALIGN_RE = re.compile(r'\|\d+-\d+\|')
 BAD_DELIMITERS = re.compile(r'[|_]+')
