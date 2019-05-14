@@ -64,6 +64,8 @@ do
     fi
 done
 
+date -Iseconds
+echo "Begin preparation for training"
 
 ${MOSES_DIR}/scripts/tokenizer/tokenizer.perl -l ${TARGET}  <${TRAINING_DIR}/commoncrawl.${SOURCE}-${TARGET}.${TARGET} \
                                                >commoncrawl.${SOURCE}-${TARGET}.tok.${TARGET}
@@ -82,6 +84,8 @@ ${MOSES_DIR}/scripts/recaser/truecase.perl --model truecase-model.${SOURCE}   <c
 ${MOSES_DIR}/scripts/training/clean-corpus-n.perl   commoncrawl.${SOURCE}-${TARGET}.true ${SOURCE} ${TARGET} commoncrawl.${SOURCE}-${TARGET}.clean 1 80
 
 echo "Training preparation complete!"
+date -Iseconds
+echo "Begin training"
 
 ${MOSES_DIR}/bin/lmplz -o 3 <commoncrawl.${SOURCE}-${TARGET}.true.${TARGET}   >commoncrawl.${SOURCE}-${TARGET}.arpa.${TARGET}
 
@@ -95,6 +99,8 @@ ${MOSES_DIR}/scripts/training/train-model.perl --root-dir train  \
 tail training.out
 
 echo "Training complete!"
+date -Iseconds
+echo "Begin preparation for tuning"
 
 ${MOSES_DIR}/scripts/tokenizer/tokenizer.perl -l ${TARGET} <${TUNING_DIR}/newstest2012.${TARGET} >newstest2012.tok.${TARGET}
 
@@ -105,6 +111,8 @@ ${MOSES_DIR}/scripts/recaser/truecase.perl --model truecase-model.${TARGET}   <n
 ${MOSES_DIR}/scripts/recaser/truecase.perl --model truecase-model.${SOURCE}   <newstest2012.tok.${SOURCE} >newstest2012.true.${SOURCE}
 
 echo "Tuning preparation complete!"
+date -Iseconds
+echo "Begin tuning"
 
 cd ${DATA_DIR}
 
@@ -114,5 +122,6 @@ ${MOSES_DIR}/scripts/training/mert-moses.pl  ${WORKING_DIR}/newstest2012.true.${
 
 tail mert.out
 
+date -Iseconds
 echo "Tuning complete!"
 
