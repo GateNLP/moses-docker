@@ -1,5 +1,5 @@
 # Version 0.0.1
-FROM ubuntu:cosmic as mosesbuilder
+FROM ubuntu:disco
 MAINTAINER Adam Funk "a.funk@sheffield.ac.uk"
 
 # base tools
@@ -36,50 +36,3 @@ WORKDIR /home/moses/mosesdecoder
 RUN mkdir tools
 WORKDIR /home/moses/giza-pp
 RUN cp GIZA++-v2/GIZA++ GIZA++-v2/snt2cooc.out mkcls-v2/mkcls /home/moses/mosesdecoder/tools
-
-WORKDIR /home/moses
-COPY  download.sh server.sh train* server-wrapper.py  ./
-
-
-FROM ubuntu:cosmic as mosescorpora
-RUN apt update && apt install -y wget locales
-RUN mkdir -p /home/moses && locale-gen en_GB.UTF-8
-WORKDIR /home/moses
-COPY  download.sh  ./
-RUN  ./download.sh -x
-
-
-FROM ubuntu:cosmic as mosestrainer
-RUN apt update && \
-    apt install -y \
-    unzip build-essential wget g++ git subversion automake \
-    libtool zlib1g-dev libboost-all-dev libbz2-dev liblzma-dev \
-    python-dev libsoap-lite-perl libxmlrpc-core-c3-dev python3-bottle \
-    libxmlrpc-c++8-dev locales google-perftools gosu locales
-RUN mkdir -p /home/moses/corpora /home/moses/mosesdecoder /home/moses/model  && locale-gen en_GB.UTF-8
-ENV LANG='en_GB.UTF-8'  LANGUAGE='en_GB:en'  LC_ALL='en_GB.UTF-8'  PYTHONIOENCODING=utf-8
-
-WORKDIR /home/moses
-COPY --from=mosescorpora /home/moses/corpora  /home/moses/corpora/
-COPY --from=mosesbuilder  /home/moses/mosesdecoder   /home/moses/mosesdecoder/
-COPY  server.sh train* server-wrapper.py entrypoint.sh  /home/moses/
-RUN  ./train_cc.sh -s de -t en -x
-
-
-FROM ubuntu:cosmic as moses_de_en
-RUN apt update && \
-    apt install -y \
-    unzip build-essential wget g++ git subversion automake \
-    libtool zlib1g-dev libboost-all-dev libbz2-dev liblzma-dev \
-    python-dev libsoap-lite-perl libxmlrpc-core-c3-dev python3-bottle \
-    libxmlrpc-c++8-dev locales google-perftools gosu locales
-RUN mkdir -p /home/moses/mosesdecoder /home/moses/model && locale-gen en_GB.UTF-8
-ENV LANG='en_GB.UTF-8'  LANGUAGE='en_GB:en'  LC_ALL='en_GB.UTF-8'  PYTHONIOENCODING=utf-8
-COPY --from=mosesbuilder  /home/moses/mosesdecoder   /home/moses/mosesdecoder/
-COPY --from=mosestrainer  /home/moses/model  /home/moses/model/
-
-# ENTRYPOINT ["/home/moses/entrypoint.sh"]
-
-# TODO
-# trained images produced by running trainer on mosestrainer with suitable
-# parameters and then creating another image with the ../model copied
