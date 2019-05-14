@@ -12,8 +12,8 @@ RUN apt-get update && \
     python-dev libsoap-lite-perl libxmlrpc-core-c3-dev python3-bottle \
     libxmlrpc-c++8-dev locales google-perftools gosu locales
 
-locale-gen en_GB.UTF-8
-ENV LANG='en_GB.UTF-8'  LANGUAGE='en_GB:en'  LC_ALL='en_GB.UTF-8'  PYTHONIOENCODING=utf-8
+RUN     locale-gen en_GB.UTF-8
+ENV     LANG='en_GB.UTF-8'  LANGUAGE='en_GB:en'  LC_ALL='en_GB.UTF-8'  PYTHONIOENCODING=utf-8
 
 # Build cmph
 WORKDIR /home/moses
