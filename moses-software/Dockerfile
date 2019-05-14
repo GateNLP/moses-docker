@@ -3,8 +3,8 @@ FROM ubuntu:disco
 MAINTAINER Adam Funk "a.funk@sheffield.ac.uk"
 
 # base tools
-RUN apt update && \
-    apt install -y \
+RUN apt-get update && \
+    apt-get install -y \
     unzip build-essential wget g++ git subversion automake \
     libtool zlib1g-dev libboost-all-dev libbz2-dev liblzma-dev \
     python-dev libsoap-lite-perl libxmlrpc-core-c3-dev python3-bottle \
