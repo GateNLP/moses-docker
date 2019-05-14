@@ -35,5 +35,6 @@ tar zxf dev.tgz
 # unpacks into dev/*
 mv dev tuning
 
-# now we only need the unpacked data
+# Now we only need the unpacked data (copy corpora/...) from this image to
+# the next one for training)
 rm training-parallel-commoncrawl.tgz dev.tgz
