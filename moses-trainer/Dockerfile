@@ -8,7 +8,7 @@ MAINTAINER Adam Funk "a.funk@sheffield.ac.uk"
 # (to be built in a subsequent image).
 
 WORKDIR /home/moses
-COPY    download.sh  server.sh  server-wrapper.sh  entrypoint.sh  train_cc.sh  ./
+COPY    download.sh  server.sh  server-wrapper.py  entrypoint.sh  train_cc.sh  ./
 RUN     mkdir -p /home/moses/corpora /home/moses/model
 RUN     ./download.sh
 
