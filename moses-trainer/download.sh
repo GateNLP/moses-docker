@@ -6,17 +6,17 @@ set -o pipefail
 #  http://www.statmt.org/moses/?n=Moses.LinksToCorpora
 #  "This page is your 'shopping list' for parallel texts."
 
-CORPORA_DIR="/data/corpora"
+CORPORA_DIR="/home/moses/corpora"
 while getopts "h?x" opt
 do
     case "$opt" in
     h|\?)
         echo "OPTIONS"
-        echo "-x     put corpora in /home/moses/corpora rather than /data/corpora"
+        echo "-x     put corpora in /data/corpora instead of /home/moses/corpora"
         exit 0
         ;;
     x)
-        CORPORA_DIR="/home/moses/corpora"
+        CORPORA_DIR="/data/corpora"
         ;;
     esac
 done

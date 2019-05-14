@@ -3,20 +3,16 @@
 set -o errexit
 set -o pipefail
 
-FINAL_DIR="/data/model"
-CORPORA_DIR="/data/corpora"
-TESTING=0  # controls removal of intermediate directories
-CORPORA_INTERNAL=0 # controls removal of corpora (subject to TESTING)
+DATA_DIR="/home/moses"
 
-while getopts "s:t:h?xT" opt
+while getopts "s:t:h?x" opt
 do
     case "$opt" in
     h|\?)
         echo "OPTIONS"
         echo "-s SL  with two-letter code for source language (required)"
         echo "-t tL  with two-letter code for target language (required)"
-        echo "-T     testing: do not delete intermediate files"
-        echo "-x     find corpora and build models in /home/moses rather than /data subdirectories"
+        echo "-x     find corpora and build models in subdirectories of /data instead of /home/moses"
         exit 0
         ;;
     s)
@@ -25,13 +21,8 @@ do
     t)
         TARGET=${OPTARG}
         ;;
-    T)
-        TESTING=1
-        ;;
     x)
-        FINAL_DIR="/home/moses/model"
-        CORPORA_DIR="/home/moses/corpora"
-        CORPORA_INTERNAL=1
+        DATA_DIR="/data"
         ;;
     esac
 done
@@ -45,11 +36,14 @@ fi
 echo "source language: ${SOURCE}"
 echo "target language: ${TARGET}"
 
+MODEL_DIR="${DATA_DIR}/model"
+CORPORA_DIR="${DATA_DIR}/corpora"
+
 
 MOSES_DIR="/home/moses/mosesdecoder"
 TRAINING_DIR="${CORPORA_DIR}/training"
 TUNING_DIR="${CORPORA_DIR}/tuning"
-WORKING_DIR="${FINAL_DIR}/working"
+WORKING_DIR="${MODEL_DIR}/working"
 
 mkdir -p ${WORKING_DIR}
 cd ${WORKING_DIR}
@@ -94,7 +88,7 @@ ${MOSES_DIR}/bin/lmplz -o 3 <commoncrawl.${SOURCE}-${TARGET}.true.${TARGET}   >c
 ${MOSES_DIR}/bin/build_binary commoncrawl.${SOURCE}-${TARGET}.arpa.${TARGET} commoncrawl.${SOURCE}-${TARGET}.blm.${TARGET}
 
 ${MOSES_DIR}/scripts/training/train-model.perl --root-dir train  \
-   -corpus ${WORKING_DIR}/commoncrawl.${SOURCE}-${TARGET}.clean -f ${SOURCE} -e ${TARGET} -alignment grow-diag-final-and \
+   -corpus ${WORKING_DIR}/commoncrawl.${SOURCE}-${TARGET}.clean -f ${SOURCE} -e ${TARGET} -alignment grow-diag-DATA-and \
    -reordering msd-bidirectional-fe -lm 0:3:${WORKING_DIR}/commoncrawl.${SOURCE}-${TARGET}.blm.${TARGET}:8 \
    -external-bin-dir ${MOSES_DIR}/tools >& training.out
 
@@ -112,7 +106,7 @@ ${MOSES_DIR}/scripts/recaser/truecase.perl --model truecase-model.${SOURCE}   <n
 
 echo "Tuning preparation complete!"
 
-cd ${FINAL_DIR}
+cd ${DATA_DIR}
 
 ${MOSES_DIR}/scripts/training/mert-moses.pl  ${WORKING_DIR}/newstest2012.true.${SOURCE}  \
    ${WORKING_DIR}/newstest2012.true.${TARGET} ${MOSES_DIR}/bin/moses  ${WORKING_DIR}/train/model/moses.ini  \
@@ -122,16 +116,3 @@ tail mert.out
 
 echo "Tuning complete!"
 
-if [[ ${TESTING} -eq 1 ]]
-then
-    echo "Not deleting intermediate files"
-else
-    echo "Deleting intermediate files"
-    rm -fr ${WORKING_DIR}
-    if [[ ${CORPORA_INTERNAL} -eq 1 ]]
-    then
-        echo "Deleting local corpora"
-        rm -fr ${CORPORA_DIR}
-    fi
-
-fi
