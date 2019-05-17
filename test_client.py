@@ -57,7 +57,6 @@ def translate_rest(source, options):
     return response.text
 
 
-
 def unmangle(moses_output):
     tokens = moses_output.strip().split()
     result = []
