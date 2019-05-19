@@ -80,6 +80,7 @@ oparser.add_argument('-x', default=False,
                      help='use XMLRPC')
 
 oparser.add_argument('-p', default=8081,
+                     type=int,
                      dest='port',
                      help='port')
 
