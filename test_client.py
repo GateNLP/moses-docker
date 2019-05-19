@@ -53,7 +53,7 @@ def translate_rpc(source, options):
 
 
 def translate_rest(source, options):
-    url = 'http://%s:i%/' % (options.host, options.port)
+    url = 'http://%s:%i/' % (options.host, options.port)
     response = requests.post(url, data=source)
     return response.text
 
