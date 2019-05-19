@@ -5,6 +5,7 @@ import argparse
 import xmlrpc.client
 import os.path
 import re
+import sys
 
 
 ALIGN_RE = re.compile(r'\|\d+-\d+\|')
@@ -121,3 +122,10 @@ if options.input_files:
                 print('Output:')
                 print(target)
 
+else:
+    for line in sys.stdin:
+        target = translate(line.rstrip(), options)
+        print('Output:')
+        print(target)
+
+        
