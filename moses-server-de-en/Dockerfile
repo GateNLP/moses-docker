@@ -5,6 +5,11 @@ MAINTAINER Adam Funk "a.funk@sheffield.ac.uk"
 WORKDIR /home/moses
 RUN    ./train_cc.sh -s de -t en
 
+# TODO
+# install tini and use in entrypoint
+# COPY --chown=user:group  ....
+# USER user
+
 
 FROM    gatenlp/moses-software
 # includes /home/moses/mosesdecoder
