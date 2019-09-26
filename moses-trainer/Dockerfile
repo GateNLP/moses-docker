@@ -8,6 +8,7 @@ MAINTAINER Adam Funk "a.funk@sheffield.ac.uk"
 # (to be built in a subsequent image).
 
 WORKDIR /home/moses
+RUN     apt install tini
 COPY    download.sh  ./
 RUN     mkdir -p /home/moses/corpora /home/moses/model
 RUN     ./download.sh
