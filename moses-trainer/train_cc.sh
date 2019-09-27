@@ -135,3 +135,6 @@ echo "Tuning complete!"
 #   -in train/model/reordering-table.wbe-msd-bidirectional-fe.gz \
 #   -out binarised-model/reordering-table
 # see p.40 of PDF manual
+
+# duplicate and edit moses.ini file
+# no vi in image --- add vim package
