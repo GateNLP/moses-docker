@@ -129,6 +129,9 @@ echo "Tuning complete!"
 # /data/model/working/train# mkdir binarised-model
 # /data/model/working/train# /home/moses/mosesdecoder/bin/processPhraseTableMin -in model/phrase-table.gz -nscores 4 -out binarised-model/phrase-table
 
+# /data/model/working/train# /home/moses/mosesdecoder/bin/processLexicalTableMin -in model/reordering-table.wbe-msd-bidirectional-fe.gz -out binarised-model/reordering-table
+
 #  ~/mosesdecoder/bin/processLexicalTableMin \
 #   -in train/model/reordering-table.wbe-msd-bidirectional-fe.gz \
 #   -out binarised-model/reordering-table
+# see p.40 of PDF manual
