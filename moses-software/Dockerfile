@@ -10,7 +10,7 @@ RUN apt-get update && \
     unzip build-essential wget g++ git subversion automake \
     libtool zlib1g-dev libboost-all-dev libbz2-dev liblzma-dev \
     python-dev libsoap-lite-perl libxmlrpc-core-c3-dev python3-bottle \
-    libxmlrpc-c++8-dev locales google-perftools gosu locales
+    libxmlrpc-c++8-dev locales google-perftools gosu locales vim
 
 RUN     locale-gen en_GB.UTF-8
 ENV     LANG='en_GB.UTF-8'  LANGUAGE='en_GB:en'  LC_ALL='en_GB.UTF-8'  PYTHONIOENCODING=utf-8
