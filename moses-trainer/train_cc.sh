@@ -38,6 +38,7 @@ echo "target language: ${TARGET}"
 
 MODEL_DIR="${DATA_DIR}/model"
 CORPORA_DIR="${DATA_DIR}/corpora"
+BIN_MODEL_DIR="${DATA_DIR}/binarised-model"
 
 
 MOSES_DIR="/home/moses/mosesdecoder"
@@ -45,8 +46,8 @@ TRAINING_DIR="${CORPORA_DIR}/training"
 TUNING_DIR="${CORPORA_DIR}/tuning"
 WORKING_DIR="${MODEL_DIR}/working"
 
-mkdir -p ${WORKING_DIR}
-cd ${WORKING_DIR}
+mkdir -p "${WORKING_DIR}" "${MODEL_DIR}" "${BIN_MODEL_DIR}"
+cd "${WORKING_DIR}"
 
 # Loop through the required input files and fail if missing
 
@@ -116,25 +117,26 @@ echo "Begin tuning"
 
 cd ${DATA_DIR}
 
-${MOSES_DIR}/scripts/training/mert-moses.pl  ${WORKING_DIR}/newstest2012.true.${SOURCE}  \
-   ${WORKING_DIR}/newstest2012.true.${TARGET} ${MOSES_DIR}/bin/moses  ${WORKING_DIR}/train/model/moses.ini  \
-   --mertdir ${MOSES_DIR}/bin &>mert.out 
+"${MOSES_DIR}/scripts/training/mert-moses.pl"  "${WORKING_DIR}/newstest2012.true.${SOURCE}"  \
+   "${WORKING_DIR}/newstest2012.true.${TARGET}" "${MOSES_DIR}/bin/moses"  "${WORKING_DIR}/train/model/moses.ini"  \
+   --mertdir "${MOSES_DIR}/bin" &>mert.out
 
 tail mert.out
 
-date -Iseconds
 echo "Tuning complete!"
+date -Iseconds
 
-# WIP speeding up
-# /data/model/working/train# mkdir binarised-model
-# /data/model/working/train# /home/moses/mosesdecoder/bin/processPhraseTableMin -in model/phrase-table.gz -nscores 4 -out binarised-model/phrase-table
+echo "Begin binarising"
 
-# /data/model/working/train# /home/moses/mosesdecoder/bin/processLexicalTableMin -in model/reordering-table.wbe-msd-bidirectional-fe.gz -out binarised-model/reordering-table
+"${MOSES_DIR}/bin/processPhraseTableMin"  -in "${MODEL_DIR}/phrase-table.gz" \
+  -nscores 4 \
+  -out "${BIN_MODEL_DIR}/phrase-table"
 
-#  ~/mosesdecoder/bin/processLexicalTableMin \
-#   -in train/model/reordering-table.wbe-msd-bidirectional-fe.gz \
-#   -out binarised-model/reordering-table
-# see p.40 of PDF manual
+"${MOSES_DIR}/bin/processLexicalTableMin" -in "${MODEL_DIR}/reordering-table.wbe-msd-bidirectional-fe.gz" \
+  -out "${BIN_MODEL_DIR}/reordering-table"
 
+echo "Binarising complete!"
+date -Iseconds
+
+# TODO
 # duplicate and edit moses.ini file
-# no vi in image --- add vim package
