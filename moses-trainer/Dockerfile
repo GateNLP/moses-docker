@@ -12,4 +12,4 @@ RUN     apt install tini
 COPY    download.sh  ./
 RUN     mkdir -p /home/moses/corpora /home/moses/model
 RUN     ./download.sh
-COPY    server.sh  server-wrapper.py  entrypoint.sh  train_cc.sh  ./
+COPY    server.sh  server-wrapper.py  entrypoint.sh  modify_ini.py  train_cc.sh  ./
