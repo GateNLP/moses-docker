@@ -99,6 +99,12 @@ ${MOSES_DIR}/scripts/training/train-model.perl --root-dir train  \
 
 tail training.out
 
+# problem occurs here with signal 11
+# http://www.statmt.org/moses/?n=Moses.FAQ#ntoc16
+#  PhraseScore dies with signal 11 - why?
+#  This may happen means because you have a null byte in your data. Look at line 2 of model/lex.f2e.
+#  etc.
+
 echo "Training complete!"
 date -Iseconds
 echo "Begin preparation for tuning"
