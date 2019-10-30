@@ -19,3 +19,6 @@ COPY    --from=training  /home/moses/server.sh /home/moses/server-wrapper.py /ho
 
 # TODO test this
 # ENTRYPOINT ["/home/moses/entrypoint.sh"]
+
+ENTRYPOINT ["/usr/bin/tini", "--"]
+CMD ["/home/moses/entrypoint.sh"]
