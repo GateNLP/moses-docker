@@ -1,5 +1,5 @@
 # Version 0.0.1
-FROM ubuntu:cosmic
+FROM ubuntu:focal
 
 MAINTAINER Adam Funk "a.funk@sheffield.ac.uk"
 
@@ -10,7 +10,7 @@ RUN id
 
 # base tools
 RUN apt update
-RUN apt install -y \
+RUN DEBIAN_FRONTEND="noninteractive" apt install -y \
    unzip build-essential wget g++ git subversion automake \
    libtool zlib1g-dev libboost-all-dev libbz2-dev liblzma-dev \
    python-dev libsoap-lite-perl libxmlrpc-core-c3-dev python3-bottle \
